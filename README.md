@@ -1,55 +1,108 @@
-# 🐺 QA Wolf Take Home Assignment
+# 📌 Project Overview
+This project is an automated web scraper that extracts the latest articles from Hacker News using Playwright.</br>
+It checks whether the articles are sorted from newest to oldest, saves them in structured files, and provides multiple execution options.</br>
 
-Welcome to the QA Wolf take home assignment for our [QA Engineer](https://www.task-wolf.com/apply-qae) role! We appreciate your interest and look forward to seeing what you come up with.
+The script:</br>
+✅ Extracts article titles, submission IDs, and timestamps.</br>
+✅ Validates sorting order using submission IDs.</br>
+✅ Handles pagination dynamically.</br>
+✅ Exports data to CSV & JSON for easy analysis.</br>
+✅ Supports flexible execution options (--headless, --limit).</br>
 
-## Instructions
+# 📌 Project Structure
+QA_WOLF_TAKE_HOME
+│── node_modules/         # Dependencies (not included in GitHub)</br>
+│── .gitignore            # Ignore unnecessary files</br>
+│── hacker_news_articles_<timestamp>.csv  # Extracted articles (CSV format)</br>
+│── hacker_news_articles_<timestamp>.json # Extracted articles (JSON format)</br>
+│── index.js              # Main script</br>
+│── package.json          # Node.js package file</br>
+│── package-lock.json     # Package dependencies</br>
+│── playwright.config.js  # Playwright configuration</br>
+│── README.md             # Project documentation (this file)</br>
 
-This assignment has two questions as outlined below. When you are done, upload your assignment to our [application page](https://www.task-wolf.com/apply-qae):
+# 📌 Installation Instructions
+1️⃣ Prerequisites</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Install Node.js (v14+ recommended)</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Install Playwright (if not installed)</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;npm install playwright</br>
 
+2️⃣ Clone the Repository</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;git clone https://github.com/YOUR_GITHUB_USERNAME/qa-wolf-take-home.git</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd qa-wolf-take-home</br>
 
-### Question 1
+3️⃣ Install Dependencies</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;npm install</br>
 
-In this assignment, you will create a script on [Hacker News](https://news.ycombinator.com/) using JavaScript and Microsoft's [Playwright](https://playwright.dev/) framework. 
+# 📌 How to Run the Script
+The script provides multiple execution options for flexibility:</br>
 
-1. Install node modules by running `npm i`.
+1️⃣ Default Execution (Fetches 100 Articles in Visible Mode)</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node index.js</br>
+✔ Runs Playwright with a visible browser.</br>
+✔ Fetches 100 articles from Hacker News.</br>
+✔ Saves data to CSV & JSON files.</br>
 
-2. Edit the `index.js` file in this project to go to [Hacker News/newest](https://news.ycombinator.com/newest) and validate that EXACTLY the first 100 articles are sorted from newest to oldest. You can run your script with the `node index.js` command.
+2️⃣ Run in Headless Mode (Faster Execution)</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node index.js --headless</br>
+✔ Runs without opening a browser window.</br>
+✔ Useful for CI/CD pipelines & faster execution.</br>
 
-Note that you are welcome to update Playwright or install other packages as you see fit, however you must utilize Playwright in this assignment.
+3️⃣ Fetch a Custom Number of Articles (e.g., 50)</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node index.js --limit 50</br>
+✔ Retrieves 50 articles instead of 100.</br>
+✔ Saves output in structured files.</br>
 
-### Question 2
+4️⃣ Fetch More Articles in Headless Mode
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node index.js --limit 200 --headless</br>
+✔ Fetches 200 articles.</br>
+✔ Runs without opening a browser for maximum speed.</br>
 
-Why do you want to work at QA Wolf? Please record a short, ~2 min video using [Loom](https://www.loom.com/) that includes:
+# 📌 Expected Output
+The extracted articles are saved in CSV & JSON files, with a timestamp to prevent overwriting.</br>
 
-1. Your answer 
+1️⃣ CSV Output (hacker_news_articles_<timestamp>.csv)</br>
+S.No,Title,Submission ID,Time</br>
+1,"AI Breakthrough in Healthcare",39543218,"2 minutes ago"</br>
+2,"New JavaScript Framework Released",39543216,"5 minutes ago"</br>
+3,"NASA’s Latest Discovery",39543214,"8 minutes ago"</br>
+...</br>
+📂 Location: Same directory as the script.</br>
 
-2. A walk-through demonstration of your code, showing a successful execution
+2️⃣ JSON Output (hacker_news_articles_<timestamp>.json)</br>
 
-The answer and walkthrough should be combined into *one* video, and must be recorded using Loom as the submission page only accepts Loom links.
+[</br>
+  {</br>
+    "S.No": 1,</br>
+    "title": "AI Breakthrough in Healthcare",</br>
+    "submissionId": 39543218,</br>
+    "time": "2 minutes ago"</br>
+  },</br>
+  {</br>
+    "S.No": 2,</br>
+    "title": "New JavaScript Framework Released",</br>
+    "submissionId": 39543216,</br>
+    "time": "5 minutes ago"</br>
+  }</br>
+]</br>
+📂 Location: Same directory as the script.</br>
 
-## Frequently Asked Questions
+# 📌 How the Script Works</br>
+| **Step** | **Description** |
+|----------|---------------|
+| **1** | Launches a Chromium browser and navigates to Hacker News ["Newest"](https://news.ycombinator.com/newest) page. |
+| **2** | Extracts up to **N** articles (**default: 100**). |
+| **3** | Handles **pagination dynamically** if more articles are needed. |
+| **4** | Validates sorting using **submission IDs** to ensure articles are arranged from **newest to oldest**. |
+| **5** | Saves extracted data to **CSV & JSON** files with dynamically generated filenames. |
+| **6** | Displays the first **10 extracted articles** in the console for verification. |
+| **7** | Closes the **browser session** after successful execution. |
 
-### What is your hiring process? When will I hear about next steps?
+# 📌 Key Features & Optimizations</br>
+✔ Supports Headless & Visible Mode → Flexible execution options.</br>
+✔ Handles Pagination Automatically → Fetches multiple pages if needed.</br>
+✔ Parallelized Data Extraction → Uses Playwright’s fast element selection.</br>
+✔ Error Handling & Robust Execution → Skips missing data, prevents crashes.</br>
+✔ Dynamically Named Output Files → Prevents overwriting, keeps data organized.</br>
+✔ Command-Line Customization → Fetch any number of articles with --limit.</br>
 
-This take home assignment is the first step in our hiring process, followed by a final round interview if it goes well. **We review every take home assignment submission and promise to get back to you either way within one week (usually sooner).** The only caveat is if we are out of the office, in which case we will get back to you when we return. If it has been more than one week and you have not heard from us, please do follow up.
-
-The final round interview is a 2-hour technical work session that reflects what it is like to work here. We provide a $150 stipend for your time for the final round interview regardless of how it goes. After that, there may be a short chat with our director about your experience and the role.
-
-Our hiring process is rolling where we review candidates until we have filled our openings. If there are no openings left, we will keep your contact information on file and reach out when we are hiring again.
-
-### Having trouble uploading your assignment?
-Be sure to delete you `node_modules`, then zip your assignment folder prior to upload. 
-
-### How do you decide who to hire?
-
-We evaluate candidates based on three criteria:
-
-- Technical ability (as demonstrated in the take home and final round)
-- Customer service orientation (as this role is customer facing)
-- Alignment with our values (captured [here](https://www.notion.so/qawolf/QA-Wolf-QA-Engineer-Remote-156203a1e476459ea5e6ffca972d0efe))
-
-This means whether we hire you is based on how you do during our interview process, not on your previous experience (or lack thereof). Note that you will also need to pass a background check to work here as our customers require this.
-
-### How can I help my application stand out?
-
-We've found that our best hires have been the most enthusiastic throughout our process. If you are very excited about working here, please feel free to go above and beyond on this assignment.
